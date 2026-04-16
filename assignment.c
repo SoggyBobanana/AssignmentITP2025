@@ -1,78 +1,95 @@
 #include <stdio.h>
 
 int main(){
-    double cost, charge, discount, total;
-    char name[50], additional, next; // can store up to 49 chars + 0 
-    int type, device; 
-    printf("Welcome to QuickFix Mobile Repair Centre!\n");
-    
-    // ask names, services, number services, additional service requirements
+    double cost = 0, charge = 0, discount = 0, total = 0;
+    char name[50], additional;
+    int type, device;
 
+    printf("Welcome to QuickFix Mobile Repair Centre!\n");
+
+    // Customer name (with spaces)
     printf("Customer name : ");
-    scanf("%s", name); // ask customer name
- 
-    printf("\nService type? :\n1. Screen Replacement (RM80.00)\n2. Battery Replacement (RM50.00)\n3. Software repair (RM30.00)\n4. Diagnostics (RM10.00)\nChoose : "); // ask service type
-    scanf("%d", &type);
-    
+    scanf(" %49[^\n]", name);
+
+    // Main service (validated)
+    do {
+        printf("\nService type?\n");
+        printf("1. Screen Replacement (RM80.00)\n");
+        printf("2. Battery Replacement (RM50.00)\n");
+        printf("3. Software Repair (RM30.00)\n");
+        printf("4. Diagnostics (RM10.00)\n");
+        printf("Choose: ");
+        scanf("%d", &type);
+
+        if(type < 1 || type > 4){
+            printf("Invalid choice. Please enter 1–4 only.\n");
+        }
+
+    } while(type < 1 || type > 4);
+
+    // Assign cost
     switch(type){
         case 1: cost = 80; break;
-        case 2 : cost = 50; break;
-        case 3 : cost = 30; break;
-        case 4 : cost = 10 ; break;
-        default : cost = 0; break;
-        
+        case 2: cost = 50; break;
+        case 3: cost = 30; break;
+        case 4: cost = 10; break;
     }
-    
-    // additional charge
-    charge += cost;
-    printf("\nNumber of services? : \n"); 
-    scanf("%d", &device);
-    
-    printf("Add additional service? (Y/N)\n");
+
+    // Number of devices (validated)
+    do {
+        printf("Number of devices: ");
+        scanf("%d", &device);
+
+        if(device <= 0){
+            printf("Must be at least 1 device.\n");
+        }
+
+    } while(device <= 0);
+
+    // Additional services
+    printf("Add additional service? (Y/N): ");
     scanf(" %c", &additional);
-    
-    // switch case for additional repairs requirement
-    
-    switch(additional){
-        case 'Y':
-        case 'y':
+
+    if(additional == 'Y' || additional == 'y'){
         do{
-            printf("\nService type? :\n1. Screen Replacement (RM80.00)\n2. Battery Replacement (RM50.00)\n3. Software repair (RM30.00)\n4. Diagnostics (RM10.00)\nChoose : "); // ask service type
-            scanf("%d", &type);
-            
-            printf("Add additional service? (Y/N)\n");
-            
+            // Validate service choice
+            do {
+                printf("\nChoose additional service (1–4): ");
+                scanf("%d", &type);
+
+                if(type < 1 || type > 4){
+                    printf("Invalid choice. Try again.\n");
+                }
+
+            } while(type < 1 || type > 4);
+
+            // Add to additional charge ONLY
+            switch(type){
+                case 1: charge += 80; break;
+                case 2: charge += 50; break;
+                case 3: charge += 30; break;
+                case 4: charge += 10; break;
+            }
+
+            printf("Add more? (Y/N): ");
             scanf(" %c", &additional);
-            
-            
-        } while (additional=='y' || additional == 'Y');
-        
-        break;
-        
-        case 'N':
-        case 'n':
-        
-        // Discount (5%)
-        discount = total * 0.5;
-        
-        // Total payment
-        total = (cost * device) + charge - discount;
-        
-        printf("Additional Charges : %lf\n", &charge);
-        printf("Discount (5%) : %lf\n", &discount);
-        printf("Total Payment : %lf\n", &total);
-        
 
-        printf("\nDaily Summary\n");
-        printf("=================\n");
-        printf("Customer name : %s\n",&name);
-        printf("Total Devices repaired : %d\n",&device);
-        printf("Total Repair fees : %lf\n", &total);
-        
-        default : printf("Invalid");
-        
+        } while(additional == 'Y' || additional == 'y');
     }
-    
+
+    // Calculation
+    total = (cost * device) + charge;
+    discount = total * 0.05;
+    total -= discount;
+
+    // Output
+    printf("\n===== RECEIPT =====\n");
+    printf("Customer: %s\n", name);
+    printf("Devices repaired: %d\n", device);
+    printf("Main service cost: RM %.2lf\n", cost * device);
+    printf("Additional charges: RM %.2lf\n", charge);
+    printf("Discount (5%%): RM %.2lf\n", discount);
+    printf("Total payment: RM %.2lf\n", total);
+
+    return 0;
 }
-
-
