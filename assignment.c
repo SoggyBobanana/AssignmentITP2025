@@ -18,11 +18,12 @@ int main(){
         case 1: cost = 80; break;
         case 2 : cost = 50; break;
         case 3 : cost = 30; break;
-        case 4 : cost = 10 : break;
+        case 4 : cost = 10 ; break;
         default : cost = 0; break;
         
     }
     
+    // additional charge
     charge += cost;
     printf("\nNumber of services? : \n"); 
     scanf("%d", &device);
@@ -36,8 +37,8 @@ int main(){
         case 'Y':
         case 'y':
         do{
-            printf("\n\nService type? :\n1. Screen Replacement\n2. Battery Replacement\n3. Software repair\n4. Diagnostics\nChoose : "); // ask service type
-            scanf("%d", &type)
+            printf("\nService type? :\n1. Screen Replacement (RM80.00)\n2. Battery Replacement (RM50.00)\n3. Software repair (RM30.00)\n4. Diagnostics (RM10.00)\nChoose : "); // ask service type
+            scanf("%d", &type);
             
             printf("Add additional service? (Y/N)\n");
             
@@ -50,35 +51,25 @@ int main(){
         
         case 'N':
         case 'n':
-        break;
-        
-        // additional charges
         
         // Discount (5%)
-        discount = total * 0.5
+        discount = total * 0.5;
         
         // Total payment
         total = (cost * device) + charge - discount;
         
-        printf("Additional Charges :", &charge);
-        printf("Discount (5%) : ", &discount);
-        printf("Total Payment :", &total);
+        printf("Additional Charges : %lf\n", &charge);
+        printf("Discount (5%) : %lf\n", &discount);
+        printf("Total Payment : %lf\n", &total);
         
-        printf("Next Customer? (Y/N) : ");
-        scanf("%c", &next);
+
+        printf("\nDaily Summary\n");
+        printf("=================\n");
+        printf("Customer name : %s\n",&name);
+        printf("Total Devices repaired : %d\n",&device);
+        printf("Total Repair fees : %lf\n", &total);
         
-        do {
-            
-            
-            
-        } while (next=='Y'||next=='y');
-        
-        printf("Daily Summary");
-        printf("=================");
-        printf("Customer name : %s",&name);
-        printf("Total Devices repaired : %d",&device);
-        printf("Total Repair fees : %f", &total)
-        
+        default : printf("Invalid");
         
     }
     
